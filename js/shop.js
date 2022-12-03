@@ -26,6 +26,7 @@ function buy(id) {
             cartList.push(productsList[item]);
         }
     }
+    document.getElementById('count_product').textContent = cartList.length;
 }
 
 // Exercise 2
@@ -68,7 +69,7 @@ function generateCart() {
 // Exercise 5
 function applyPromotionsCart() {
     for (item in cart) {
-        if ('offer' in cart[item] && cart[item].offer.number >= cart[item].quantity) {
+        if ('offer' in cart[item] && cart[item].offer.number < cart[item].quantity) {
             var discount = (cart[item].subtotal * cart[item].offer.percent) / 100;
             cart[item].subtotalWithDiscount = cart[item].subtotal - discount;
         }
@@ -78,6 +79,32 @@ function applyPromotionsCart() {
 // Exercise 6
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    // Reset the table
+    document.getElementById('cart_list').innerHTML = '';
+    // Add cart products
+    for (item in cart) {
+        var cartTable = document.getElementById('cart_list').appendChild(document.createElement('tr'));
+        cartTable.appendChild(document.createElement('th')).textContent = cart[item].name;
+            // .setAttribute('scope', 'row');
+        cartTable.appendChild(document.createElement('td')).textContent = "$" + cart[item].price;
+        cartTable.appendChild(document.createElement('td')).textContent = cart[item].quantity;
+        if ('subtotalWithDiscount' in cart[item]) {
+            cartTable.appendChild(document.createElement('td')).textContent = "$" + cart[item].subtotalWithDiscount;
+        } else {
+            cartTable.appendChild(document.createElement('td')).textContent = "$" + cart[item].subtotal;
+        }  
+    }
+    // Reset and update total price
+    document.getElementById('total_price').innerHTML = '';
+    var totalPrice = 0;
+    for (item in cart) {
+        if ('subtotalWithDiscount' in cart[item]) {
+            totalPrice += cart[item].subtotalWithDiscount;
+        } else {
+            totalPrice += cart[item].subtotal;
+        } 
+    }
+    document.getElementById('total_price').innerHTML = totalPrice;
 }
 
 
@@ -98,5 +125,9 @@ function removeFromCart(id) {
 
 function open_modal(){
 	console.log("Open Modal");
+    // Auto execute generateCart function, without the need to click the extra button
+    generateCart();
+    // Apply promotions before opening the cart
+    applyPromotionsCart();
 	printCart();
 }
