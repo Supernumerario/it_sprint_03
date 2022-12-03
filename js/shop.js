@@ -56,8 +56,10 @@ function generateCart() {
             var itemId = cartList[item].id;
             var cartIndex = cart.findIndex(elem => elem['id'] === itemId);
             ++cart[cartIndex].quantity;
+            cart[cartIndex].subtotal = cartList[item].price * cartList[item].quantity; 
         } else {
             cartList[item].quantity = 1;
+            cartList[item].subtotal = cartList[item].price;
             cart.push(cartList[item]);
         }
     }
