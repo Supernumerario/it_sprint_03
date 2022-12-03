@@ -67,7 +67,12 @@ function generateCart() {
 
 // Exercise 5
 function applyPromotionsCart() {
-    // Apply promotions to each item in the array "cart"
+    for (item in cart) {
+        if ('offer' in cart[item] && cart[item].offer.number >= cart[item].quantity) {
+            var discount = (cart[item].subtotal * cart[item].offer.percent) / 100;
+            cart[item].subtotalWithDiscount = cart[item].subtotal - discount;
+        }
+    }
 }
 
 // Exercise 6
