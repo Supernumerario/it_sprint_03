@@ -34,8 +34,15 @@ function cleanCart() {
 }
 
 // Exercise 3
+var totalPrice = 0;
 function calculateTotal() {
+    // Reset totalPrice
+    totalPrice = 0;
     // Calculate total price of the cart using the "cartList" array
+    for (item in cartList) {
+        totalPrice = totalPrice + cartList[item].price;
+        console.log(cartList[item].price);
+    }
 }
 
 // Exercise 4
