@@ -32,6 +32,11 @@ function buy(id) {
 // Exercise 2
 function cleanCart() {
     cartList.length = 0;
+    document.getElementById('count_product').textContent = cartList.length;
+    // Reset the table
+    document.getElementById('cart_list').innerHTML = '';
+    // Reset the total price
+    document.getElementById('total_price').innerHTML = '';
 }
 
 // Exercise 3
