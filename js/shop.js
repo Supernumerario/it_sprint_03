@@ -149,6 +149,35 @@ function addToCart(id) {
 // As they are very similar, could this be merged in the previous addToCart function?
 // Maybe passing an extra boolean parameter to switch add/remove?
 function removeFromCart(id) {
+    // 1. Loop for to the array products to get the item to remove from cart
+
+    // Locate if the item is present in the cart and, if it is, save the position in it
+    var itemInCart = false;
+    var itemPosition;
+    for (item in cart) {
+        if (cart[item].id == id) {
+            itemInCart = true;
+            itemPosition = item;
+        }
+    }
+
+    // 2. Remove found product from the cart
+    if (itemInCart && cart[itemPosition].quantity == 1) {
+        // Delete item from cart
+        delete cart[itemPosition];
+    } else if (itemInCart) {
+        // Update the item quantity
+        --cart[itemPosition].quantity;
+        cart[itemPosition].subtotal = cart[itemPosition].price * cart[itemPosition].quantity; 
+    }
+
+    // Update the cart button counter
+    var cartButtonCounter = document.getElementById('count_product');
+    var amountOfItems = 0;
+    for (item in cart) {
+        amountOfItems = amountOfItems + cart[item].quantity;
+    }
+    cartButtonCounter.textContent = amountOfItems;
 }
 
 function open_modal(){
